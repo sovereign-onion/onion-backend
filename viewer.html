@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Onion Travel Feed</title>
+<style>
+body { font-family: Arial; background:#111; color:#fff; }
+.item { margin-bottom:15px; padding:10px; border-bottom:1px solid #333; }
+a { color:#4fc3f7; }
+</style>
+</head>
+<body>
+
+<h2>Live Feed</h2>
+<div id="feed"></div>
+
+<script>
+async function loadFeed() {
+    const res = await fetch("http://127.0.0.1:8765/feed");
+    const data = await res.json();
+
+    const container = document.getElementById("feed");
+    container.innerHTML = "";
+
+    data.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item";
+
+        function formatDate(dt) {
+    if (!dt) return "";
+    const d = new Date(dt);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    let hours = d.getHours();
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    return `${day}-${month}-${year} ${hours}:${minutes} ${ampm}`;
+}
+
+div.innerHTML = `
+    <strong>${item.title ? item.title : item.name}</strong><br>
+    ${item.event_date} — ${item.status} — ${formatDate(item.created_at)}<br>
+    <a href="${item.link}" target="_blank">Open</a>
+    <button onclick="muteItem('${item.fingerprint}')">Hide</button>
+`;
+
+        container.appendChild(div);
+    });
+}
+
+setInterval(loadFeed, 3000);
+loadFeed();
+async function muteItem(fingerprint) {
+    await fetch("http://127.0.0.1:8765/mute", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({fingerprint})
+    });
+    loadFeed();
+}
+</script>
+
+</body>
+</html>
