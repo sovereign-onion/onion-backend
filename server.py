@@ -114,7 +114,10 @@ class FeedRequestHandler(BaseHTTPRequestHandler):
         return
 
 
+import os
+
 def run_http_server() -> None:
-    httpd = ThreadingHTTPServer((HOST, PORT), FeedRequestHandler)
-    print(f"HTTP server running on http://{HOST}:{PORT}")
+    port = int(os.environ.get("PORT", PORT))
+    httpd = ThreadingHTTPServer(("0.0.0.0", port), FeedRequestHandler)
+    print(f"HTTP server running on http://0.0.0.0:{port}")
     httpd.serve_forever()
