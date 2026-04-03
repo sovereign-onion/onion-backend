@@ -5,6 +5,7 @@ import html
 import re
 import urllib.request
 import xml.etree.ElementTree as ET
+import feedparser
 from datetime import datetime
 from email.utils import parsedate_to_datetime
 from typing import Any
@@ -21,6 +22,23 @@ from config import (
 )
 from db import list_watchlist, upsert_feed_item
 
+def fetch_bachtrack():
+    url = "https://bachtrack.com/rss/events"
+    feed = feedparser.parse(url)
+
+    results = []
+
+    for entry in feed.entries:
+        results.append({
+            "name": entry.get("title", ""),
+            "location": "",
+            "event_date": "",
+            "status": "live",
+            "link": entry.get("link", ""),
+            "fingerprint": entry.get("id", entry.get("link", ""))
+        })
+
+    return results
 
 def fetch_bytes(url: str) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -223,18 +241,21 @@ def classify_item(
 
     joined_text = f"{title} {summary}".strip()
 
+    # HARD FILTER: remove opinion / admin / internal / non-event content
+    noise_terms = [
+        "boss", "editor", "who", "what", "why", "how",
+        "analysis", "opinion", "interview", "says", "question",
+        "debate", "explains", "review", "reaction"
+    ]
+
+    lowered = joined_text.lower()
+    if any(term in lowered for term in noise_terms):
+        return None
+
     classical_match = is_classical(joined_text)
     watchlist_match = matches_watchlist(joined_text, watchlist)
 
-    if not (classical_match or watchlist_match):
-        return None
-
-    if not has_movement_signal(joined_text):
-        return None
-
-    location = extract_location(joined_text)
-    if not location:
-        return None
+    location = extract_location(joined_text) or "Unknown"
 
     name = derive_name(title)
     event_date = parse_date(pub_date)
