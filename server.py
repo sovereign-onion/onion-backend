@@ -34,7 +34,9 @@ class FeedRequestHandler(BaseHTTPRequestHandler):
 
         if parsed.path == "/":
             try:
-                with open("viewer.html", "rb") as f:
+                base_dir = os.path.dirname(__file__)
+                file_path = os.path.join(base_dir, "viewer.html")
+                with open(file_path, "rb") as f:
                     content = f.read()
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -43,10 +45,6 @@ class FeedRequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(content)
             except Exception:
                 self._send_json(404, {"error": "viewer.not_found"})
-            return
-
-        if parsed.path == "/health":
-            self._send_json(200, {"ok": True})
             return
 
         if parsed.path == "/feed":
