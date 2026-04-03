@@ -136,10 +136,12 @@ def list_active_items() -> list[dict[str, Any]]:
             SELECT
                 f.fingerprint,
                 f.name,
+                f.title,
                 f.location,
                 f.event_date,
                 f.status,
-                f.link
+                f.link,
+                f.detected_at AS created_at
             FROM feed_items f
             LEFT JOIN muted_items m
                 ON m.fingerprint = f.fingerprint
