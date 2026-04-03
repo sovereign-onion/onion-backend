@@ -30,20 +30,20 @@ class FeedRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self) -> None:
-    parsed = urlparse(self.path)
+        parsed = urlparse(self.path)
 
-    if parsed.path == "/":
-        try:
-            with open("viewer.html", "rb") as f:
-                content = f.read()
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html")
-            self.send_header("Content-Length", str(len(content)))
-            self.end_headers()
-            self.wfile.write(content)
-        except Exception:
-            self.send_json(404, {"error": "viewer.not_found"})
-        return
+        if parsed.path == "/":
+            try:
+                with open("viewer.html", "rb") as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+            except Exception:
+                self._send_json(404, {"error": "viewer.not_found"})
+            return
 
         if parsed.path == "/health":
             self._send_json(200, {"ok": True})
