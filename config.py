@@ -13,43 +13,8 @@ REQUEST_TIMEOUT_SECONDS = 40
 USER_AGENT = "OnionTravelFeed/0.1"
 
 RSS_SOURCES = [
-    # GLOBAL CLASSICAL MEDIA (HIGH SIGNAL)
-    {"name": "Bachtrack", "url": "https://bachtrack.com/rss", "official": False},
-    {"name": "Classic FM News", "url": "https://www.classicfm.com/news/rss.xml", "official": False},
-    {"name": "Gramophone", "url": "https://www.gramophone.co.uk/rss.xml", "official": False},
-    {"name": "Limelight Arts", "url": "https://limelight-arts.com.au/feed/", "official": False},
-    {"name": "ABC Arts", "url": "https://www.abc.net.au/news/feed/51120/rss.xml", "official": False},
-    {"name": "Guardian Classical", "url": "https://www.theguardian.com/music/classicalmusic/rss", "official": False},
-    {"name": "NPR Music", "url": "https://www.npr.org/rss/rss.php?id=1039", "official": False},
-
-    # UK MAJOR INSTITUTIONS
-    {"name": "Royal Opera House", "url": "https://www.roh.org.uk/rss/news", "official": True},
-    {"name": "London Symphony Orchestra", "url": "https://lso.co.uk/feed/", "official": True},
-    {"name": "BBC Proms", "url": "https://www.bbc.co.uk/programmes/b007v097/episodes/player.rss", "official": True},
-    {"name": "Royal Philharmonic Orchestra", "url": "https://www.rpo.co.uk/news/rss", "official": True},
-    {"name": "Philharmonia Orchestra UK", "url": "https://philharmonia.co.uk/feed/", "official": True},
-
-    # USA MAJOR INSTITUTIONS
-    {"name": "New York Philharmonic", "url": "https://nyphil.org/rss", "official": True},
-    {"name": "Los Angeles Philharmonic", "url": "https://www.laphil.com/rss", "official": True},
-    {"name": "Chicago Symphony Orchestra", "url": "https://cso.org/rss", "official": True},
-    {"name": "San Francisco Symphony", "url": "https://www.sfsymphony.org/rss", "official": True},
-    {"name": "Metropolitan Opera", "url": "https://www.metopera.org/rss/news", "official": True},
-
-    # AUSTRALIA / NEW ZEALAND (DESTINATION REGION)
-    {"name": "NZSO", "url": "https://www.nzso.co.nz/feed/", "official": True},
-    {"name": "Auckland Philharmonia", "url": "https://www.aucklandphil.nz/feed/", "official": True},
-    {"name": "Sydney Symphony", "url": "https://www.sydneysymphony.com/rss", "official": True},
-    {"name": "Melbourne Symphony", "url": "https://www.mso.com.au/feed/", "official": True},
-    {"name": "Opera Australia", "url": "https://www.opera.org.au/feed/", "official": True},
-    {"name": "Queensland Symphony", "url": "https://www.qso.com.au/feed/", "official": True},
-
-    # EVENTS / AGGREGATORS
-    {"name": "Eventfinda NZ", "url": "https://www.eventfinda.co.nz/rss/events", "official": False},
-
-    # LOW PRIORITY (OPTIONAL SIGNAL)
-    {"name": "Pitchfork News", "url": "https://pitchfork.com/rss/news/", "official": False},
-    {"name": "Billboard", "url": "https://www.billboard.com/feed/", "official": False},
+    {"name": "Guardian Music", "url": "https://www.theguardian.com/music/rss"},
+    {"name": "BBC Music", "url": "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"},
 ]
 
 CLASSICAL_TERMS = [
