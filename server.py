@@ -37,7 +37,7 @@ class FeedRequestHandler(BaseHTTPRequestHandler):
             return
 
         if parsed.path == "/feed":
-            items = list_active_items()
+            items = sorted(list_active_items(), key=lambda x: x.get("created_at", ""), reverse=True)
             self._send_json(200, items)
             return
 
