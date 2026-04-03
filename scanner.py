@@ -276,6 +276,11 @@ def scan_all_sources() -> dict[str, int]:
     errors = 0
     watchlist = list_watchlist()
 
+    # ADD THIS BLOCK
+    for item in fetch_bachtrack():
+        upsert_feed_item(item)
+        matched_items += 1
+
     for source in RSS_SOURCES:
         try:
             matched_items += scan_source(source, watchlist)
